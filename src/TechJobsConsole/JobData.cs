@@ -43,13 +43,18 @@ namespace TechJobsConsole
             // load data, if not already loaded
             LoadData();
 
+            string lowerColumn = column.ToLower();
+            string lowerValue = value.ToLower();
+
             List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
 
             foreach (Dictionary<string, string> row in AllJobs)
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                string aValueLower = aValue.ToLower();
+
+                if (aValueLower.Contains(lowerValue))
                 {
                     jobs.Add(row);
                 }
@@ -61,6 +66,40 @@ namespace TechJobsConsole
         /*
          * Load and parse data from job_data.csv
          */
+
+        public static List<Dictionary<string, string>> FindByValue(string searchTerm)
+        // In the JobData class, create a new (public static) method called FindByValue 
+        // that will search for a string within each of the columns. 
+
+        {
+            //load data if not already loaded
+            LoadData();
+
+            List<Dictionary<string, string>> result = new List<Dictionary<string, string>>();
+            
+            foreach (Dictionary<string,string> record in AllJobs) //all jobs is a list
+            {
+                foreach (var row in record) //this looks at all the columns
+                {
+                    var info = row.Value; //pulls the associated values
+
+                    if (info.Contains(searchTerm)) //if the search term equals the Value of the descriptor
+                    {
+                        if (result.Contains(record))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            result.Add(record);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+
         private static void LoadData()
         {
 

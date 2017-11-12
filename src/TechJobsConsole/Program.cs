@@ -37,6 +37,8 @@ namespace TechJobsConsole
                     if (columnChoice.Equals("all"))
                     {
                         PrintJobs(JobData.FindAll());
+
+                        //Console.WriteLine("This feature is being built!");
                     }
                     else
                     {
@@ -56,14 +58,17 @@ namespace TechJobsConsole
 
                     // What is their search term?
                     Console.WriteLine("\nSearch term: ");
-                    string searchTerm = Console.ReadLine();
+                    string searchTerm = Console.ReadLine().ToLower();
 
                     List<Dictionary<string, string>> searchResults;
 
                     // Fetch results
                     if (columnChoice.Equals("all"))
                     {
-                        Console.WriteLine("Search all fields not yet implemented.");
+                        //Console.WriteLine("Search all fields not yet implemented.");
+                        searchResults = JobData.FindByValue(searchTerm);
+                        PrintJobs(searchResults);
+
                     }
                     else
                     {
@@ -118,7 +123,23 @@ namespace TechJobsConsole
 
         private static void PrintJobs(List<Dictionary<string, string>> someJobs)
         {
-            Console.WriteLine("printJobs is not implemented yet");
+            Console.WriteLine("*****");
+            foreach (Dictionary<string, string> item in someJobs)
+            {
+                if (item == null)
+                {
+                    Console.WriteLine("There are no current openings.  Check again later.");
+                }
+                else
+                {
+                    foreach (KeyValuePair<string, string> set in item)
+                    {
+                        Console.WriteLine(string.Format("{0}: {1}", set.Key, set.Value));
+                    }
+                    Console.WriteLine("*****");
+                    continue;
+                }
+            }
         }
-    }
+}
 }
